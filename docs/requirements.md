@@ -152,3 +152,56 @@
     </td>
   </tr>
 </table>
+
+
+### View Library Profile  
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td>View Library Profile</td>
+  </tr>
+  <tr>
+    <td>Actor</td>
+    <td>Student</td>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td>Students can view their library profile.</td>
+  </tr>
+  <tr>
+    <td>Preconditions</td>
+    <td>
+      <ul>
+        <li>The student is authenticated.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Postconditions</td>
+    <td>
+      <ul>
+        <li>The student gets information of his/hers own library profile.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Normal flow</td>
+    <td>
+      <ol>
+        <li>The student accesses librarys's profile.</li>
+        <li>The information (ex: total number of loaned books, loan requests, loan history etc.) is displayed in a user friendly way.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td>Alternative flows and exceptions</td>
+    <td>
+      <ul>
+        <li>In step 1 the student needs to be authenticated, otherwise it's not possible to get access to the profile.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
