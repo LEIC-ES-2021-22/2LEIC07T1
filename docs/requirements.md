@@ -2,6 +2,10 @@
 
 ## Use cases
 
+### Use-case diagram
+
+![fig1](usecase.png)
+
 ### Check the current occupation
 
 <table>
