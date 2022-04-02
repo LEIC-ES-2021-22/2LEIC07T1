@@ -5,6 +5,6 @@
 
 ### Table of contents
 
- - [Product Vision](docs/vision.md)
- - [Requirements](docs/requirements.md)
- - [Domain Model](docs/domainmodel.md)
+ - [Product Vision](vision.md)
+ - [Requirements](requirements.md)
+ - [Domain Model](domainmodel.md)

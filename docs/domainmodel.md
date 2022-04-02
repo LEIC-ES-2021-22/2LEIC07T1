@@ -1,8 +1,6 @@
+# Domain model
 
-### Domain model
-
-
-![fig1](domainmodel.png)
+![domain_model](src/domainmodel.png)
 
 <table>
   <tr>

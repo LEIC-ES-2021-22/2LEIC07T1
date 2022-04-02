@@ -4,7 +4,7 @@
 
 ### Use-case diagram
 
-![fig1](usecase.png)
+![usecase](src/usecase.png)
 
 ### Check the current occupation
 
