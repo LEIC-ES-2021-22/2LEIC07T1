@@ -1,6 +1,6 @@
 # Architecture and Design
-## Logical architecture
+### Logical architecture
 
-## Physical architecture
+### Physical architecture
 
-## Vertical prototype
+### Vertical prototype
