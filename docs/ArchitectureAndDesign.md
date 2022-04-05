@@ -14,4 +14,11 @@ Uniteca is the main component of the application. It contains all the **MVC** co
 
 ## Physical architecture
 
+The physical architecture of the application is composed by:
+ - Smarthphone
+ - Sigarra's website
+ - Library's website
+
+The chosen sotfware of the UI section is Flutter (finish)
+
 ## Vertical prototype
