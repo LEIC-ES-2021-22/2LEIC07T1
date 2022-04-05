@@ -8,3 +8,4 @@
  - [Product Vision](docs/vision.md)
  - [Requirements](docs/requirements.md)
  - [Domain Model](docs/domainmodel.md)
+ - [Architecture and Design](ArchitectureAndDesign)
