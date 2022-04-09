@@ -25,3 +25,10 @@ The chosen mobile framework to develop the UI was Flutter. For the logical secti
 ![physical_diagram](src/physical_diagram.png)
 
 ## Vertical prototype
+
+So far, we haven't worked on any concrete implementation of the user stories. Nevertheless, we have already produced a sample Flutter application so the development is ready to start 🚀. Here is the current state of the application:
+
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/75942759/162584637-878dacaf-be78-41ca-8658-763d3eb5c972.png">
+</p>
+
