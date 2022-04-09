@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Uniteca',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Uniteca'),
     );
   }
 }
@@ -46,19 +46,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -93,21 +80,33 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Padding(
+              child: Text('Made by:', style: TextStyle(fontSize: 30)),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  ),
+            Padding(
+              child: Text('André Barbosa', style: TextStyle(fontSize: 18)),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  ),
+            Padding(
+              child: Text('Francisco Nunes', style: TextStyle(fontSize: 18)),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  ),
+            Padding(
+              child: Text('Guilherme Almeida', style: TextStyle(fontSize: 18)),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  ),
+            Padding(
+              child: Text('João Pereira', style: TextStyle(fontSize: 18)),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  ),
+            Padding(
+              child: Text('Luís Rodrigues', style: TextStyle(fontSize: 18)),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
