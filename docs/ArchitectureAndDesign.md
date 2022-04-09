@@ -14,4 +14,14 @@ Uniteca is the main component of the application. It contains all the **MVC** co
 
 ## Physical architecture
 
+The physical architecture of the application is composed by:
+ - Smarthphone (both in Android and IOS)
+ - Sigarra's website 
+ - Library's website
+
+The chosen mobile framework to develop the UI was Flutter. For the logical section and database management we are using Dart and SqlLite respectively.
+
+
+![physical_diagram](src/physical_diagram.png)
+
 ## Vertical prototype
