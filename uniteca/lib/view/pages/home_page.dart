@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:uniteca/view/widgets/navigation_drawer.dart';
+import 'package:uniteca/view/pages/page.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+class HomePage extends StatefulWidget {
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends PageState {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+  Widget getBody(BuildContext context) {
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -46,8 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
           ],
         ),
-      ),
-      drawer: NavigationDrawer(),
-    );
+      );
   }
 }

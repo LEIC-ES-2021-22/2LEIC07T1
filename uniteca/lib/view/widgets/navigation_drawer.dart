@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uniteca/assets/constants.dart' as Constants;
 
 class NavigationDrawer extends StatefulWidget {
   @override
@@ -7,21 +8,26 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   List<String> drawerItems = [
-      'Home',
-      'Page 1'
+      Constants.navHome,
+      Constants.navOccupation,
     ];
 
-  @override
-  void initState() {
-    super.initState();
-
+  void onTap(String item) {
+    if (item == Constants.navHome) {
+      Navigator.pushNamedAndRemoveUntil(
+        context, '/' + item, (r) => false);
+    } else if ('/' + item != ModalRoute.of(context).settings.name) {
+      Navigator.popAndPushNamed(context, '/' + item);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Widget createDrawerItem(String item) {
     return ListTile (
       contentPadding: EdgeInsets.only(left: 25.0), 
       title: Text(item),
-      onTap: () => (Navigator.pop(context))
+      onTap: () => onTap(item)
     );
   }
 
