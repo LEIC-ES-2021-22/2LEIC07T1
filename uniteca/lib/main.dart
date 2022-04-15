@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uniteca/view/pages/home_page.dart';
 import 'package:uniteca/assets/constants.dart' as Constants;
+import 'package:uniteca/view/theme.dart';
 import 'package:uniteca/view/pages/occupation_page.dart';
 
 void main() {
@@ -11,10 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      //home: HomePage(),
+      theme: theme,
       initialRoute: '/' + Constants.navHome,
       routes: <String, WidgetBuilder> {
         '/' + Constants.navHome: (BuildContext context) => HomePage(),

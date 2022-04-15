@@ -6,15 +6,22 @@ class PageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: getAppBar(context),
+      body: getBody(context),
+      drawer: NavigationDrawer(),
+    );
+  }
+
+  Widget getAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(55.0),
+      child: AppBar(
         title: TextButton(
-          child: const Text ('Uniteca', style: TextStyle(color: Colors.white)),
+          child: const Text ('Uniteca'),
           onPressed: () => Navigator.pushNamedAndRemoveUntil(context, 
             '/' + Constants.navHome, (r) => false)
         ),
       ),
-      body: getBody(context),
-      drawer: NavigationDrawer(),
     );
   }
 

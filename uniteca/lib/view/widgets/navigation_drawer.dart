@@ -8,14 +8,13 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   List<String> drawerItems = [
-      Constants.navHome,
-      Constants.navOccupation,
-    ];
+    Constants.navHome,
+    Constants.navOccupation,
+  ];
 
   void onTap(String item) {
     if (item == Constants.navHome) {
-      Navigator.pushNamedAndRemoveUntil(
-        context, '/' + item, (r) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/' + item, (r) => false);
     } else if ('/' + item != ModalRoute.of(context).settings.name) {
       Navigator.popAndPushNamed(context, '/' + item);
     } else {
@@ -24,10 +23,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createDrawerItem(String item) {
-    return ListTile (
-      contentPadding: EdgeInsets.only(left: 25.0), 
+    var color = Theme.of(context).scaffoldBackgroundColor;
+    if ('/' + item == ModalRoute.of(context).settings.name) {
+      color = Theme.of(context).hintColor;
+    }
+
+    return ListTile(
+      contentPadding: EdgeInsets.only(left: 25.0),
       title: Text(item),
-      onTap: () => onTap(item)
+      onTap: () => onTap(item),
+      tileColor: color,
     );
   }
 
@@ -37,10 +42,13 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
     drawerItems.forEach((item) => items.add(createDrawerItem(item)));
 
-    return Drawer(
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Theme.of(context).scaffoldBackgroundColor
+      ),
+      child: Drawer(
         child: ListView(
-          padding: EdgeInsets.only(top: 60.0),
-          children: items)
-    );
+          padding: EdgeInsets.only(top: 79.0),
+           children: items)));
   }
 }
