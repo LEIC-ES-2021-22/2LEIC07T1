@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/' + Constants.navHome:
-            return getPageTransition(HomePage());
+            return getPageTransition(HomePage(), settings);
           case '/' + Constants.navOccupation: 
-            return getPageTransition(OccupationPage());
+            return getPageTransition(OccupationPage(), settings);
         }
         return null;
       }
