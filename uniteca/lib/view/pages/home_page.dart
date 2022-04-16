@@ -7,6 +7,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+/// The home page. This is the initial route of the application.
 class _HomePageState extends PageState {
   @override
   Widget getBody(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uniteca/assets/constants.dart' as Constants;
 
+/// The drawer containing all navigation option. Standart for all pages.
 class NavigationDrawer extends StatefulWidget {
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
@@ -12,6 +13,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     Constants.navOccupation,
   ];
 
+  /// After a click, direct the Navigator to the appropriate route.
   void onTap(String item) {
     if (item == Constants.navHome) {
       Navigator.pushNamedAndRemoveUntil(context, '/' + item, (r) => false);
@@ -22,6 +24,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     }
   }
 
+  /// Create a page option for the drawer.
   Widget createDrawerItem(String item) {
     var color = Theme.of(context).scaffoldBackgroundColor;
     if ('/' + item == ModalRoute.of(context).settings.name) {

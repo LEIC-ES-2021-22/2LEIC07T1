@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uniteca/view/widgets/navigation/navigation_drawer.dart';
 import 'package:uniteca/assets/constants.dart' as Constants;
 
+/// Generic page. Every page of the app should inherit from PageState.
 class PageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class PageState extends State<StatefulWidget> {
     );
   }
 
+  /// Create the top app bar.
   Widget getAppBar(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(55.0),
@@ -25,6 +27,7 @@ class PageState extends State<StatefulWidget> {
     );
   }
 
+  /// Create the main body of the page.
   Widget getBody(BuildContext context) {
     return Container();
   }

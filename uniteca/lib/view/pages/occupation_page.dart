@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uniteca/view/pages/page.dart';
 
+/// Display the library occupation.
 class OccupationPage extends StatefulWidget {
   @override
   _OccupationPageState createState() => _OccupationPageState();
