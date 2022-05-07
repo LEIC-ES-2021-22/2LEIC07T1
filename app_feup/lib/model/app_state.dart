@@ -7,6 +7,7 @@ import 'package:uni/utils/constants.dart' as Constants;
 import 'entities/exam.dart';
 import 'entities/lecture.dart';
 import 'entities/restaurant.dart';
+import 'entities/library.dart';
 
 enum RequestStatus { none, busy, failed, successful }
 
@@ -19,6 +20,7 @@ class AppState {
       'schedule': <Lecture>[],
       'exams': <Exam>[],
       'restaurants': <Restaurant>[],
+      'library':<Library>[],
       'filteredExam': Map<String, bool>(),
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
