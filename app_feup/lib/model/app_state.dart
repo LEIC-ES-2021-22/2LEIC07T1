@@ -20,7 +20,7 @@ class AppState {
       'schedule': <Lecture>[],
       'exams': <Exam>[],
       'restaurants': <Restaurant>[],
-      'library':<Library>[],
+      'library':LibraryOccupation,
       'filteredExam': Map<String, bool>(),
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,

@@ -17,6 +17,7 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
+import 'package:uni/controller/occupation_fetcher/occupation_fetcher_html.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
@@ -30,6 +31,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/library.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
@@ -300,6 +302,25 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
     } catch(e){
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getOccupationFromFetcher(Completer<Null> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetOccupationStatusAction(RequestStatus.busy));
+
+      final LibraryOccupation occupation = 
+        await OccupationFetcherHtml().getCalendar(store);
+      //TODO database
+      store.dispatch(SetOccupationAction(occupation));
+      store.dispatch(SetOccupationStatusAction(RequestStatus.successful));
+      
+    } catch(e){
+      Logger().e('Failed to get Occupation: ${e.toString()}');
+      store.dispatch(SetOccupationStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
