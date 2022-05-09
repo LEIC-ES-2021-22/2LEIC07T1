@@ -1,9 +1,21 @@
-# Architecture and Design
+# 2LEIC07T1
+## Uniteca
+
+**Uniteca** is a mobile application designed to help students determine where to study.
+
+### Table of contents
+
+ - [Product Vision](vision.md)
+ - [Requirements](requirements.md)
+ - [Domain Model](domainmodel.md)
+ - [Architecture and Design](ArchitectureAndDesign.md)
+
+## Architecture and Design
 
 This file incorporates a short description of the app's architecture.
 The main component of our program is the mobile application. It is hosted on the user's phone and connects to the website. Data about the events is stored locally. The app is organized according to the **Model-View-Controller** pattern. 
 
-## Logical architecture
+### Logical architecture
 
 Uniteca is the main component of the application. It contains all the **MVC** components:
  - The **View** (Occupation UI, Profile UI and Rooms UI) uses the data from the model and controller to display it to the user, through the Flutter interface. It also communicates to the Controller any action the user performs.
@@ -12,7 +24,7 @@ Uniteca is the main component of the application. It contains all the **MVC** co
 
 ![component diagram](src/component_diagram.png)
 
-## Physical architecture
+### Physical architecture
 
 The physical architecture of the application is composed by:
  - Smarthphone (both in Android and IOS)
