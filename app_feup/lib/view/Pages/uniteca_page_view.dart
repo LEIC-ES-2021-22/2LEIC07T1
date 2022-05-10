@@ -30,7 +30,8 @@ class UnitecaPageViewState extends GeneralPageViewState {
       ]);
   }
 
-  Widget getFloors(int floor1, int floor2, double percentage1, double percentage2) {
+  Widget getFloors(int floor1, int floor2,
+                  double percentage1, double percentage2) {
      return Row(
         children: [
           getFloorsAux(floor1, percentage1),
