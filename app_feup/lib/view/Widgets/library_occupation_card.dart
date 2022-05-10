@@ -46,6 +46,8 @@ class LibraryOccupation extends GenericCard {
       radius: 60.0,
       lineWidth: 7.0,
       percent: 0.41,
+      animation: true,
+      animationDuration: 2000,
       center: Text(
         '41.0%',
         style: Theme.of(context).textTheme.headline2

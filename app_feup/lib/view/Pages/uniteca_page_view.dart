@@ -56,9 +56,13 @@ class UnitecaPageViewState extends GeneralPageViewState {
                 child:
                     Column(
                           children: [
-                              Text('Floor ' + floor.toString(), style: TextStyle(decorationColor: Theme.of(context).hintColor)),
+                              Text('Floor ' + floor.toString()),
                               Padding(padding: EdgeInsets.all(15)),
-                              Text(i.toString() + '%', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                              Text(i.toString() + '%',
+                                  style:
+                                       TextStyle(
+                                           fontSize: 22,
+                                           fontWeight: FontWeight.bold)),
                               Padding(padding: EdgeInsets.only(top: 28)),
                               Container(
                                         child: LinearPercentIndicator(
@@ -66,7 +70,9 @@ class UnitecaPageViewState extends GeneralPageViewState {
                                               lineHeight: 7.0,
                                               animationDuration: 2000,
                                               percent: i / 100,
-                                              progressColor: Theme.of(context).accentColor,
+                                              progressColor:
+                                                    Theme.of(context).
+                                                    accentColor,
                                         )
                               )
                           ]
@@ -86,7 +92,9 @@ class UnitecaPageViewState extends GeneralPageViewState {
                                           color: Theme.of(context).primaryColor,
                                           boxShadow: [
                                                 BoxShadow(
-                                                color: Color.fromARGB(0x1c, 0, 0, 0),
+                                                color:
+                                                    Color.
+                                                    fromARGB(0x1c, 0, 0, 0),
                                                 blurRadius: 7.0,
                                                 offset: Offset(0.0, 1.0),
                                                 )
@@ -95,9 +103,13 @@ class UnitecaPageViewState extends GeneralPageViewState {
              child:
                   Column(
                       children: [
-                            Text('Floor ' + (floor + 1).toString(), style: TextStyle(decorationColor: Theme.of(context).hintColor)),
+                            Text('Floor ' + (floor + 1).toString()),
                             Padding(padding: EdgeInsets.all(15)),
-                            Text(j.toString() + '%', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                            Text(j.toString() + '%',
+                                style:
+                                    TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold)),
                             Padding(padding: EdgeInsets.only(top: 28)),
                             Container(
                                     child: LinearPercentIndicator(
@@ -105,7 +117,9 @@ class UnitecaPageViewState extends GeneralPageViewState {
                                             lineHeight: 7.0,
                                             animationDuration: 2000,
                                             percent: j / 100,
-                                            progressColor: Theme.of(context).accentColor,
+                                            progressColor:
+                                                    Theme.of(context).
+                                                    accentColor,
                                     )
                             )
                     ]
