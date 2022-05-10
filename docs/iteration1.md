@@ -19,3 +19,7 @@
 
  - One of the objectives of this iteration was to complete the occupation fetcher. This task revealed to be harder then expected as the library website is not suited for this kind of task.
  - There are some aspects of the Dart language and Flutter that we are not familiar yet. The same goes for the Uni codebase.
+
+## Project board
+
+![image](https://user-images.githubusercontent.com/75942759/167677592-ebcc054c-5159-480f-a315-da2de19a8922.png)
