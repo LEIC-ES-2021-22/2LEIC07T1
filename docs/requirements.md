@@ -2,6 +2,13 @@
 
 ## Use cases
 
+ - [Diagram](#use-case-diagram)
+ - [Check the current occupation](#check-the-current-occupation)
+ - [See the usual traffic](#see-the-usual-traffic)
+ - [View booked rooms](#view-booked-rooms)
+ - [Book rooms](#book-rooms)
+ - [View library profile](#view-library-profile)
+
 ### Use-case diagram
 
 ![usecase](src/usecase.png)
@@ -102,12 +109,64 @@
   </tr>
 </table>
 
-### Book 6th floor rooms
+### View booked rooms
 
 <table>
   <tr>
     <td>Name</td>
-    <td>Book 6th floor rooms</td>
+    <td>View booked rooms</td>
+  </tr>
+  <tr>
+    <td>Actor</td>
+    <td>Student</td>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td>Students can see the rooms they have booked.</td>
+  </tr>
+  <tr>
+    <td>Preconditions</td>
+    <td>
+      <ul>
+        <li>The student has booked rooms.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Postconditions</td>
+    <td>
+      <ul>
+        <li>The student is informed of his booked rooms.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Normal flow</td>
+    <td>
+      <ol>
+        <li>The student accesses the page.</li>
+        <li>The system gets the information from the website.</li>
+        <li>The student is informed of his booked rooms.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td>Alternative flows and exceptions</td>
+    <td>
+      <ul>
+        <li>If the user has no booked rooms, a proper message is displayed.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+### Book rooms
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td>Book rooms</td>
   </tr>
   <tr>
     <td>Actor</td>
