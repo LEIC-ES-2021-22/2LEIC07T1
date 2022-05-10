@@ -30,7 +30,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
       ]);
   }
 
-  Widget getFloors(int floor, double i, double j) {
+  Widget getFloors(int floor, double percentage1, double percentage2) {
      return Row(
         children: [
 
@@ -58,7 +58,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                           children: [
                               Text('Floor ' + floor.toString()),
                               Padding(padding: EdgeInsets.all(15)),
-                              Text(i.toString() + '%',
+                              Text(percentage1.toString() + '%',
                                   style:
                                        TextStyle(
                                            fontSize: 22,
@@ -67,7 +67,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                               Container(
                                         child: LinearPercentIndicator(
                                               lineHeight: 7.0,
-                                              percent: i / 100,
+                                              percent: percentage1 / 100,
                                               progressColor:
                                                     Theme.of(context).
                                                     accentColor,
@@ -103,7 +103,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                       children: [
                             Text('Floor ' + (floor + 1).toString()),
                             Padding(padding: EdgeInsets.all(15)),
-                            Text(j.toString() + '%',
+                            Text(percentage2.toString() + '%',
                                 style:
                                     TextStyle(
                                         fontSize: 22,
@@ -112,7 +112,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                             Container(
                                     child: LinearPercentIndicator(
                                             lineHeight: 7.0,
-                                            percent: j / 100,
+                                            percent: percentage2 / 100,
                                             progressColor:
                                                     Theme.of(context).
                                                     accentColor,
