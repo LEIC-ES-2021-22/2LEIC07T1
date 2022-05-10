@@ -66,9 +66,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                               Padding(padding: EdgeInsets.only(top: 28)),
                               Container(
                                         child: LinearPercentIndicator(
-                                              animation: true,
                                               lineHeight: 7.0,
-                                              animationDuration: 2000,
                                               percent: i / 100,
                                               progressColor:
                                                     Theme.of(context).
@@ -113,9 +111,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
                             Padding(padding: EdgeInsets.only(top: 28)),
                             Container(
                                     child: LinearPercentIndicator(
-                                            animation: true,
                                             lineHeight: 7.0,
-                                            animationDuration: 2000,
                                             percent: j / 100,
                                             progressColor:
                                                     Theme.of(context).
