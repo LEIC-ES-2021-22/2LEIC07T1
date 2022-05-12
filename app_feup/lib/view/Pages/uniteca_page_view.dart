@@ -33,9 +33,9 @@ class UnitecaPageViewState extends GeneralPageViewState {
   Widget getFloors(int floor1, int floor2,
                   double percentage1, double percentage2) {
      return Row(
+       mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           getFloorsAux(floor1, percentage1),
-          Padding(padding: EdgeInsets.only(left: 12)),
           getFloorsAux(floor2, percentage2),
         ]
      );
@@ -46,10 +46,9 @@ class UnitecaPageViewState extends GeneralPageViewState {
   Widget getFloorsAux(int floor, double percentage) {
     return
       Container (
-
         child:
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: EdgeInsets.symmetric(vertical: 10),
           height: 150.0,
           width: 150.0,
           padding: EdgeInsets.all(20.0),
