@@ -7,6 +7,7 @@ import 'generic_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
+
 /// Manages the library card section inside the personal area.
 class LibraryOccupation extends GenericCard {
   LibraryOccupation({Key key}) : super(key: key);
@@ -21,6 +22,7 @@ class LibraryOccupation extends GenericCard {
   @override
   onClick(BuildContext context) => 
     Navigator.pushNamed(context, '/' + Constants.navUniteca);
+
 
   @override
   Widget buildCardContent(BuildContext context) {
