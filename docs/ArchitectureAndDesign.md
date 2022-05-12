@@ -26,9 +26,12 @@ The chosen mobile framework to develop the UI was Flutter. For the logical secti
 
 ## Vertical prototype
 
-So far, we haven't worked on any concrete implementation of the user stories. Nevertheless, we have already produced a sample Flutter application so the development is ready to start 🚀. Here is the current state of the application:
+Before any proper work was done, we started by forking the Uni repository and getting familiarized with the codebase. To do that we developed a simple page on the app that would display our names. 
 
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/75942759/162584637-878dacaf-be78-41ca-8658-763d3eb5c972.png">
+   <img src="https://user-images.githubusercontent.com/75942759/165073437-6b1e393d-d5f9-45a0-bff8-f056d3489695.png">
 </p>
+
+This implementation can be found [here](https://github.com/LEIC-ES-2021-22/2LEIC07T1/tree/vertical-prototype).
+
 
