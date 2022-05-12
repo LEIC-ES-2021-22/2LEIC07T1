@@ -1,5 +1,7 @@
 # Iteration 1
 
+Check the release of this iteration [here](https://github.com/LEIC-ES-2021-22/2LEIC07T1/releases/tag/v1.0.0)
+
 ## Retrospective
 
 ### What went well?
