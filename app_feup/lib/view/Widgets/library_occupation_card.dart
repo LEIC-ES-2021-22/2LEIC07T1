@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'generic_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 /// Manages the library card section inside the personal area.
 class LibraryOccupation extends GenericCard {
@@ -18,7 +19,8 @@ class LibraryOccupation extends GenericCard {
   String getTitle() => 'Ocupação da biblioteca';
 
   @override
-  onClick(BuildContext context) => null;
+  onClick(BuildContext context) => 
+    Navigator.pushNamed(context, '/' + Constants.navUniteca);
 
   @override
   Widget buildCardContent(BuildContext context) {
