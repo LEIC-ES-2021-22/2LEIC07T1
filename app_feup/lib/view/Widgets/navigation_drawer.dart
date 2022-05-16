@@ -31,6 +31,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       Constants.navAbout: _onSelectPage,
       Constants.navBugReport: _onSelectPage,
       Constants.navUniteca: _onSelectPage,
+      Constants.navRooms: _onSelectPage,
     };
   }
 
