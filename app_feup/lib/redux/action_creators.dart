@@ -12,6 +12,7 @@ import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
+import 'package:uni/controller/local_storage/app_reservations_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
@@ -315,16 +316,13 @@ ThunkAction<AppState> getReservationsFromFetcher(Completer<Null> action){
       final List<Reservation> reservations =
                       await ReservationsFetcherHtml().getReservations(store);
       // Updates local database according to information fetched -- Reservations
-      /*
-      final RestaurantDatabase db = RestaurantDatabase();
-      db.saveRestaurants(restaurants);
-      db.restaurants(day:null);
-      store.dispatch(SetRestaurantsAction(restaurants));
-      store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
-      */
+      final ReservationDatabase db = ReservationDatabase();
+      db.saveReservations(reservations);
+      store.dispatch(SetReservationsAction(reservations));
+      store.dispatch(SetReservationsStatusAction(RequestStatus.successful));
 
     } catch(e){
-      Logger().e('Failed to get Restaurants: ${e.toString()}');
+      Logger().e('Failed to get Reservations: ${e.toString()}');
       store.dispatch(SetReservationsStatusAction(RequestStatus.failed));
     }
     action.complete();

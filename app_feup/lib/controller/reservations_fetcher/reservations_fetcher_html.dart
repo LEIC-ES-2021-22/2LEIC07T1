@@ -7,6 +7,7 @@ import 'package:uni/model/entities/reservation.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:redux/redux.dart';
 
+/// Get the library rooms' reservations from the website
 class ReservationsFetcherHtml {
   Future<List<Reservation>> getReservations(Store<AppState> store) async {
 
