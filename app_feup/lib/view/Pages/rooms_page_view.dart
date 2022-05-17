@@ -24,8 +24,6 @@ class RoomsPageViewState extends GeneralPageViewState {
         children: <Widget>[
           PageTitle(name: 'Library Rooms'),
           ButtonTheme(
-              minWidth: 300,
-              height: 150,
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -152,7 +150,15 @@ class RoomsPageViewState extends GeneralPageViewState {
                         ]));
                       });
                 },
-                child: Text("Book a room"),
+
+                child: Icon(Icons.add),
+
+                style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(15),
+                    primary: Theme.of(context).accentColor, // <-- Button color
+                ),
+
               )),
         ]);
   }
