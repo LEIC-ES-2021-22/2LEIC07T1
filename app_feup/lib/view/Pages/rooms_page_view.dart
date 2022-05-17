@@ -31,6 +31,8 @@ class RoomsPageViewState extends GeneralPageViewState {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
+                        return StatefulBuilder(
+                          builder: (context, setState) {
                         return AlertDialog(
                             content: Column(children: <Widget>[
                           Form(
@@ -109,8 +111,6 @@ class RoomsPageViewState extends GeneralPageViewState {
                                 //
 
 
-
-
                                 Padding(
                                   padding: EdgeInsets.all(50),
                                 ),
@@ -132,15 +132,17 @@ class RoomsPageViewState extends GeneralPageViewState {
                                             Navigator.of(context).pop();
                                           }),
                                       ElevatedButton(
-                                        child: Text("Clear"),
+                                        child: Text('Clear'),
                                         onPressed: () {
+                                          setState(() {
                                           time = null;
                                           dateTime = null;
                                           duration = null;
+                                          });
                                         },
                                       ),
                                       ElevatedButton(
-                                        child: Text("Submit"),
+                                        child: Text('Submit'),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
@@ -150,7 +152,7 @@ class RoomsPageViewState extends GeneralPageViewState {
                             ),
                           )
                         ]));
-                      });
+    });});
                 },
                 child: Text("Book a room"),
               )),
