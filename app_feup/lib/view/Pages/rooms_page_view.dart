@@ -154,7 +154,6 @@ class RoomsPageViewState extends GeneralPageViewState {
                 },
 
                 child: Icon(Icons.add),
-
                 style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(15),
