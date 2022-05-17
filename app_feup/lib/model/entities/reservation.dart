@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 /// Private room reservation from the library
 class Reservation {
   String room;
@@ -14,4 +16,20 @@ class Reservation {
     };
     return map;
   }
+
+  @override
+  String toString() {
+    return '$room, $startDate, $duration';
+  }
+
+  @override
+  bool operator == (Object other){
+    return other is Reservation
+      && room == other.room
+      && (startDate.compareTo(other.startDate) == 0)
+      && (duration.compareTo(other.duration) == 0);
+  }
+
+  @override
+  int get hashCode => hashValues(room, startDate, duration);
 }

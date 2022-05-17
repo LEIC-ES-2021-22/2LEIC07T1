@@ -16,7 +16,9 @@ Future<List<Reservation>> getReservationsFromHtml(Response response) async {
     final DateTime startDate = DateTime.parse('$date $hour');
     final String durationHtml = element.children[4].firstChild.text;
     final Duration duration = Duration(
-      hours: int.parse(durationHtml.substring(0,2)));
+      hours: int.parse(durationHtml.substring(0,2)),
+      minutes: int.parse(durationHtml.substring(3,5))
+      );
     return Reservation(room, startDate, duration);
   }).toList();
 }
