@@ -7,7 +7,7 @@ Future<List<Reservation>> getReservationsFromHtml(Response response) async {
   final document = parse(response.body);
 
   final List<Element> reservationHtml =
-    document.getElementsByClassName("d interior");
+    document.getElementsByClassName('d interior');
 
   return reservationHtml.map( (element) {
     final String room = element.children[5].firstChild.text;
