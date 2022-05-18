@@ -16,7 +16,7 @@ class RoomReservations extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'salas reservadas';
+  String getTitle() => 'Booked Rooms';
 
   @override
   onClick(BuildContext context) =>
@@ -43,9 +43,24 @@ class RoomReservations extends GenericCard {
         });
   }
 
-  Text txt = Text("rooms");
+
 
   Widget generateRoom(occupations, context) {
-    return txt;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        InkWell(
+          child: Column(
+            children: <Widget>[
+
+              Text('Room B001', textAlign: TextAlign.left),
+              Text('12/2/01 ás 16:00' , textAlign: TextAlign.center),
+              Text('duraçao: 1 hora', textAlign: TextAlign.center)
+
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
