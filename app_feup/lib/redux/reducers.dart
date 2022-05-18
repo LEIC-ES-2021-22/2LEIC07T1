@@ -64,8 +64,11 @@ AppState appReducers(AppState state, dynamic action) {
     return setUserFaculties(state, action);
   } else if(action is SetRestaurantsAction){
     return setRestaurantsAction(state, action);
+<<<<<<< HEAD
   } else if(action is SetOccupationAction){
     return setOccupationAction(state, action);
+=======
+>>>>>>> 5b74116297919d6e084cd821a738bddce0446929
   } else if(action is SetReservationsAction){
     return setReservationsAction(state, action);
   }
