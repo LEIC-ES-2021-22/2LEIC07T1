@@ -66,6 +66,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setRestaurantsAction(state, action);
   } else if(action is SetOccupationAction){
     return setOccupationAction(state, action);
+  } else if(action is SetReservationsAction){
+    return setReservationsAction(state, action);
   }
   return state;
 }
@@ -94,6 +96,11 @@ AppState setOccupationAction(AppState state, SetOccupationAction action) {
   Logger().i('setting occupation: ' + 
     action.occupation.getPercentage().toString() + '%');
   return state.cloneAndUpdateValue('occupation', action.occupation);
+}
+
+AppState setReservationsAction(AppState state, SetReservationsAction action) {
+  Logger().i('setting reservations: ' + action.reservations.length.toString());
+  return state.cloneAndUpdateValue('reservations', action.reservations);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
