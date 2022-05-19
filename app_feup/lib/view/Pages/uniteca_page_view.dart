@@ -1,91 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/library.dart';
+import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/library_occupation_card.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 
 class UnitecaPageView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => UnitecaPageViewState();
 }
 
-class UnitecaPageViewState extends GeneralPageViewState {
+class UnitecaPageViewState extends SecondaryPageViewState {
   @override
-
   Widget getBody(BuildContext context) {
+    return StoreConnector<AppState, Tuple2<LibraryOccupation, RequestStatus>>(
+        converter: (store) {
+      final LibraryOccupation occupation = store.state.content['occupation'];
+      return Tuple2(occupation, store.state.content['occupationStatus']);
+    }, builder: (context, occupationInfo) {
+      return RequestDependentWidgetBuilder(
+          context: context,
+          status: occupationInfo.item2,
+          contentGenerator: generateOccupationPage,
+          content: occupationInfo.item1,
+          contentChecker: occupationInfo.item1 != null &&
+                 occupationInfo.item1.capacity != 0,
+          onNullContent: Center(
+              child: Text('Não existem dados para apresentar',
+                  style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center)));
+    });
+  }
 
-      return ListView(
+  Widget generateOccupationPage(occupation, context) {
+    return ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        children: <Widget> [
+        children: <Widget>[
           PageTitle(name: 'Uniteca'),
-
           LibraryOccupationCard(),
-
-          PageTitle(name: 'Floors'),
-
-          getFloors(1, 2, 42.0, 87.2),
-          getFloors(3, 4, 23.0, 36.8),
-          getFloors(5, 6, 70.3, 12.0),
-      ]);
+          PageTitle(name: 'Pisos'),
+          createFloorRow(occupation.getFloor(1), occupation.getFloor(2)),
+          createFloorRow(occupation.getFloor(3), occupation.getFloor(4)),
+          createFloorRow(occupation.getFloor(5), occupation.getFloor(6))
+        ]);
   }
 
-  Widget getFloors(int floor1, int floor2,
-                  double percentage1, double percentage2) {
-     return Row(
-       mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          getFloorsAux(floor1, percentage1),
-          getFloorsAux(floor2, percentage2),
-        ]
-     );
+  Widget createFloorRow(FloorOccupation floor1, FloorOccupation floor2) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+       children: [
+          createFloorCard(floor1),
+          createFloorCard(floor2),
+    ]);
   }
 
-
-
-  Widget getFloorsAux(int floor, double percentage) {
-    return
-      Container (
-        child:
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          height: 150.0,
-          width: 150.0,
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration (
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              color: Theme.of(context).primaryColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(0x1c, 0, 0, 0),
-                  blurRadius: 7.0,
-                  offset: Offset(0.0, 1.0),
-                )
-              ]
-          ),
-          child:
-          Column(
-              children: [
-                Text('Floor ' + floor.toString()),
-                Padding(padding: EdgeInsets.all(15)),
-                Text(percentage.toString() + '%',
-                    style:
-                    TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold)),
-                Padding(padding: EdgeInsets.only(top: 28)),
-                Container(
-                    child: LinearPercentIndicator(
-                      lineHeight: 7.0,
-                      percent: percentage / 100,
-                      progressColor:
-                      Theme.of(context).
-                      accentColor,
-                    )
-                )
-              ]
-          ),
-        ),
-      );
+  Widget createFloorCard(FloorOccupation floor) {
+    return Container(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        height: 150.0,
+        width: 150.0,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            color: Theme.of(context).primaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(0x1c, 0, 0, 0),
+                blurRadius: 7.0,
+                offset: Offset(0.0, 1.0),
+              )
+            ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Piso ' + floor.getNumber().toString()),
+            Text(floor.getPercentage().toString() + '%',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(
+                floor.getOccupation().toString() +
+                    '/' +
+                    floor.getCapacity().toString(),
+                style: Theme.of(context).textTheme.headline2),
+            Container(
+                child: LinearPercentIndicator(
+              lineHeight: 7.0,
+              percent: floor.getPercentage() / 100,
+              progressColor: Theme.of(context).accentColor,
+            ))
+          ]),
+      ),
+    );
   }
 }

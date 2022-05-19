@@ -2,6 +2,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/model/entities/library.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'generic_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -26,18 +27,21 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<String, RequestStatus>>(
-        converter: (store) => Tuple2(
-            'one',
-            RequestStatus.none),
-        builder: (context, occupation) {
+    return StoreConnector<AppState, Tuple2<LibraryOccupation, RequestStatus>>(
+        converter: (store) {
+          final LibraryOccupation occupation 
+            = store.state.content['occupation'];
+          return Tuple2(occupation, store.state.content['occupationStatus']);
+        },
+        builder: (context, occupationInfo) {
           return RequestDependentWidgetBuilder(
               context: context,
-              status: occupation.item2,
+              status: occupationInfo.item2,
               contentGenerator: generateOccupation,
-              content: occupation.item1,
+              content: occupationInfo.item1,
               contentChecker: 
-                occupation.item1 != null && occupation.item1.isNotEmpty,
+                occupationInfo.item1 != null &&
+                 occupationInfo.item1.capacity != 0,
               onNullContent: Center(
                   child: Text('Não existem dados para apresentar',
                       style: Theme.of(context).textTheme.headline4,
@@ -45,18 +49,26 @@ class LibraryOccupationCard extends GenericCard {
         });
   }
 
-  Widget generateOccupation(occupations, context) {
+  Widget generateOccupation(occupation, context) {
     return CircularPercentIndicator(
       radius: 60.0,
-      lineWidth: 7.0,
-      percent: 0.41,
+      lineWidth: 9.0,
+      percent: occupation.getPercentage() / 100,
       center: Text(
-        '41.0%',
-        style: Theme.of(context).textTheme.headline2
+        occupation.getPercentage().toString() + '%',
+        style: Theme.of(context).textTheme.headline2.copyWith(
+          fontSize: 25, fontWeight: FontWeight.w500)
       ),
-      footer: Text(
-        '200/488',
-        style: Theme.of(context).textTheme.headline2
+      footer: Column(
+        children: [
+          Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
+          Text(
+            occupation.getOccupation().toString()
+            + '/'
+            + occupation.getCapacity().toString(),
+            style: Theme.of(context).textTheme.headline2
+          ),
+        ],
       ),
       circularStrokeCap: CircularStrokeCap.round,
       backgroundColor: Theme.of(context).hintColor,

@@ -18,11 +18,15 @@ class OccupationFetcherSheets {
     final occupation = LibraryOccupation();
 
     for (int i = 1; i < 7; i++) {
-      final occupationCell = await sheet.cells.cell(column: 3, row: i + 1);
-      final capacityCell = await sheet.cells.cell(column: 5, row: i + 1);
+      try {
+        final occupationCell = await sheet.cells.cell(column: 3, row: i + 1);
+        final capacityCell = await sheet.cells.cell(column: 5, row: i + 1);
 
-      occupation.addFloor(FloorOccupation(
-        i, int.parse(occupationCell.value), int.parse(capacityCell.value)));
+        occupation.addFloor(FloorOccupation(
+          i, int.parse(occupationCell.value), int.parse(capacityCell.value)));
+      } on FormatException {
+        occupation.addFloor(FloorOccupation(0, 0, 0));
+      }
     }
     return occupation;
   }
