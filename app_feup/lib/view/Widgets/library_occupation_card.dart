@@ -9,10 +9,10 @@ import 'package:uni/utils/constants.dart' as Constants;
 
 
 /// Manages the library card section inside the personal area.
-class LibraryOccupation extends GenericCard {
-  LibraryOccupation({Key key}) : super(key: key);
+class LibraryOccupationCard extends GenericCard {
+  LibraryOccupationCard({Key key}) : super(key: key);
 
-  LibraryOccupation.fromEditingInformation(
+  LibraryOccupationCard.fromEditingInformation(
       Key key, bool editingMode, Function onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 

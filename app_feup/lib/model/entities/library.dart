@@ -17,7 +17,12 @@ class LibraryOccupation {
   }
 
   int getPercentage() {
+    if (capacity == 0) return 0;
     return (occupation * 100 / capacity).round();
+  }
+
+  List<FloorOccupation> getFloors() {
+    return this.floors;
   }
 }
 
@@ -32,4 +37,13 @@ class FloorOccupation {
   int getOccupation() {return this.occupation;}
   int getCapacity() {return this.capacity;}
   void setCapacity(int occupation) {this.occupation = occupation;}
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> map = {
+      'number' : number,
+      'occupation' : occupation,
+      'capacity' : capacity, 
+    };
+    return map;
+  }
 }

@@ -11,6 +11,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_reservations_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -18,7 +19,7 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
-import 'package:uni/controller/occupation_fetcher/occupation_fetcher_html.dart';
+import 'package:uni/controller/occupation_fetcher/occupation_fetcher_sheets.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
@@ -316,8 +317,9 @@ ThunkAction<AppState> getOccupationFromFetcher(Completer<Null> action) {
       store.dispatch(SetOccupationStatusAction(RequestStatus.busy));
 
       final LibraryOccupation occupation = 
-        await OccupationFetcherHtml().getCalendar(store);
-      //TODO database
+        await OccupationFetcherSheets().getOccupationFromSheets(store);
+      final OccupationDatabase db = OccupationDatabase();
+      db.saveOccupation(occupation);
       store.dispatch(SetOccupationAction(occupation));
       store.dispatch(SetOccupationStatusAction(RequestStatus.successful));
       

@@ -20,7 +20,7 @@ class UnitecaPageViewState extends GeneralPageViewState {
         children: <Widget> [
           PageTitle(name: 'Uniteca'),
 
-          LibraryOccupation(),
+          LibraryOccupationCard(),
 
           PageTitle(name: 'Floors'),
 
