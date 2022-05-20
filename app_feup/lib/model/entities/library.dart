@@ -34,7 +34,7 @@ class LibraryOccupation {
   }
 
   FloorOccupation getFloor(int number) {
-    if (floors.length <= number || number < 0) return FloorOccupation(0, 0, 0);
+    if (floors.length < number || number < 0) return FloorOccupation(0, 0, 0);
     return floors[number - 1];
   }
 }
