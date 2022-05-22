@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/room_reservations_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uni/utils/constants.dart' as Constants;
@@ -16,6 +17,18 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
+
+    List <Reservation> myList = List <Reservation>();
+
+    final r = Reservation("Room B001",DateTime.parse('2022-05-16 16:00'),
+        Duration(hours: 1));
+
+    final b = Reservation("Room B002",DateTime.parse('2022-05-17 16:30'),
+        Duration(hours: 1));
+
+    myList.add(r);
+    myList.add(b);
+
     return ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -23,9 +36,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         children: <Widget>[
           PageTitle(name: 'Rooms Reservations'),
 
-          getRoom("Room B001","15/03/22 ás 18:40","3 horas"),
-          getRoom("Room B002","12/04/22 ás 19:40","1 hora"),
-
+          getRoom(r),
+          getRoom(b),
 
           MaterialButton(
             color: Color.fromARGB(255, 0x75, 0x17, 0x1e),
@@ -45,7 +57,15 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         ]);
   }
 
-    Widget getRoom(String room, String startdate, String duration) {
+  void printRooms(List<Reservation> l){
+    for(var i = 0; i < l.length; i++){
+      getRoom(l[i]);
+    }
+
+  }
+
+  Widget getRoom(Reservation reservation){
+
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -77,7 +97,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   child:
-                  Text(room,
+                  Text(reservation.room,
                       textAlign: TextAlign.left,
                       style:
                       TextStyle(
@@ -90,7 +110,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                 alignment: Alignment.centerRight,
                   child: Container(
                     child:
-                  Text(startdate,
+                  Text(DateFormat('dd-MM-yyyy hh:mm')
+                      .format(reservation.startDate),
                       style:
                       TextStyle(
                           fontSize: 22,
@@ -103,7 +124,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                 alignment: Alignment.centerRight,
                 child: Container(
                     child:
-                    Text(duration,
+                    Text(reservation.duration.toString(),
                         textAlign: TextAlign.right,
                         style:
                         TextStyle(

@@ -44,7 +44,6 @@ class RoomReservations extends GenericCard {
   }
 
 
-
   Widget generateRoom(occupations, context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
