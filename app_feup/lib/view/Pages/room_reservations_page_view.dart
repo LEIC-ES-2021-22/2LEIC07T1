@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/room_reservations_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/model/entities/reservation.dart';
 
 //import 'secondary_page_view.dart';
 
@@ -26,42 +27,50 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
     final b = Reservation("Room B002",DateTime.parse('2022-05-17 16:30'),
         Duration(hours: 1));
 
-    myList.add(r);
-    myList.add(b);
+   // myList.add(r);
+    //myList.add(b);
 
     return ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
 
-        children: <Widget>[
-          PageTitle(name: 'Rooms Reservations'),
-
-          getRoom(r),
-          getRoom(b),
-
-          MaterialButton(
-            color: Color.fromARGB(255, 0x75, 0x17, 0x1e),
-            shape: const CircleBorder(),
-            onPressed: () {
-              // go to page created by joao and guilherme
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Text(
-                '+',
-                style: TextStyle(color: Colors.white, fontSize: 30),
-              ),
-            ),
-          )
-
-        ]);
+        children: printRooms(myList)
+    );
   }
 
-  void printRooms(List<Reservation> l){
-    for(var i = 0; i < l.length; i++){
-      getRoom(l[i]);
+  List<Widget> printRooms(List<Reservation> l){
+
+    final List<Widget> c = <Widget>[];
+
+    c.add(PageTitle(name: 'Rooms Reservations'));
+
+    if(l.isEmpty){
+      c.add(Text(
+         'No booked Rooms',
+        style: TextStyle(fontSize: 20), textAlign: TextAlign.center)
+      );
     }
 
+    for(var i = 0; i < l.length; i++){
+      c.add(getRoom(l[i]));
+    }
+
+    c.add(MaterialButton(
+      color: Color.fromARGB(255, 0x75, 0x17, 0x1e),
+      shape: const CircleBorder(),
+      onPressed: () {
+        // go to page created by joao and guilherme
+      },
+      child: const Padding(
+        padding: EdgeInsets.all(15),
+        child: Text(
+          '+',
+          style: TextStyle(color: Colors.white, fontSize: 30),
+        ),
+      ),
+      ));
+
+    return c;
   }
 
   Widget getRoom(Reservation reservation){
