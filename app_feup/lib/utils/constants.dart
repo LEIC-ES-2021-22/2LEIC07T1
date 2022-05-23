@@ -7,7 +7,7 @@ const navStops = 'Autocarros';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navUniteca = 'Uniteca';
-const navRooms = 'Room Reservations';
+const navRooms = 'Reservas';
 const navLogOut = 'Terminar sessão';
 
 const faculties = ['faup', 'fbaup', 'fcup', 'fcnaup', 'fadeup',

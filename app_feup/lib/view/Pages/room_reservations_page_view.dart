@@ -1,11 +1,12 @@
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/view/Widgets/room_reservations_card.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/model/entities/reservation.dart';
 
 //import 'secondary_page_view.dart';
@@ -23,100 +24,100 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    List<Reservation> myList = List<Reservation>();
-
-    final r = Reservation(
-        "Room B001", DateTime.parse('2022-05-16 16:00'), Duration(hours: 1));
-
-    final b = Reservation(
-        "Room B002", DateTime.parse('2022-05-17 16:30'), Duration(hours: 1));
-
-    myList.add(r);
-    myList.add(b);
-
     return Scaffold(
-      body: ListView(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          children: printRooms(myList)),
+      body: StoreConnector<AppState, Tuple2<List<Reservation>, RequestStatus>>(
+          converter: (store) {
+        final List<Reservation> reservations =
+            store.state.content['reservations'];
+        return Tuple2(reservations, store.state.content['reservationsStatus']);
+      }, builder: (context, reservationInfo) {
+        return RequestDependentWidgetBuilder(
+            context: context,
+            status: reservationInfo.item2,
+            contentGenerator: generateReservationPage,
+            content: reservationInfo.item1,
+            contentChecker: reservationInfo.item1 != null &&
+                reservationInfo.item1.isNotEmpty,
+            onNullContent: Center(
+                child: Text('Não há salas reservadas!',
+                    style: Theme.of(context).textTheme.headline4,
+                    textAlign: TextAlign.center)));
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton:
-          reserveRoom(context),
+      floatingActionButton: reserveRoom(context),
     );
   }
 
-  List<Widget> printRooms(List<Reservation> l) {
-    final List<Widget> c = <Widget>[];
+  Widget generateReservationPage(reservations, BuildContext context) {
+    final List<Widget> items = <Widget>[];
 
-    c.add(PageTitle(name: 'Rooms Reservations'));
+    items.add(PageTitle(name: 'Reserva de gabinetes'));
 
-    if (l.isEmpty) {
-      c.add(Text('No booked Rooms',
-          style: TextStyle(fontSize: 20), textAlign: TextAlign.center));
+    for (var i = 0; i < reservations.length; i++) {
+      items.add(getRoom(reservations[i]));
     }
 
-    for (var i = 0; i < l.length; i++) {
-      c.add(getRoom(l[i]));
-    }
-    return c;
+    return ListView(
+        scrollDirection: Axis.vertical, shrinkWrap: true, children: items);
   }
 
   Widget getRoom(Reservation reservation) {
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Container(
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 8),
-          height: 135.0,
-          width: 300.0,
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              color: Theme.of(context).primaryColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(0x1c, 0, 0, 0),
-                  blurRadius: 7.0,
-                  offset: Offset(0.0, 1.0),
-                )
-              ]),
-          child: Column(children: [
-            Padding(padding: EdgeInsets.only(top: 9)),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  child: Text(reservation.room,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 0x75, 0x17, 0x1e)))),
-            ),
-            Padding(padding: EdgeInsets.all(15)),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                  child: Text(
-                      DateFormat('dd-MM-yyyy hh:mm')
-                          .format(reservation.startDate),
-                      style: TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold))),
-            ),
-            Padding(padding: EdgeInsets.only(top: 4)),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                  child: Text(
-                      reservation.duration.inMinutes.toString() + ' min',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 20))),
-            ),
+    final String hours =
+        (reservation.duration.inHours).toString().padLeft(2, '0');
+    final String minutes =
+        (reservation.duration.inMinutes - reservation.duration.inHours * 60)
+            .toString()
+            .padLeft(2, '0');
+
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      width: double.infinity,
+      padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: Theme.of(context).primaryColor,
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(0x1c, 0, 0, 0),
+              blurRadius: 7.0,
+              offset: Offset(0.0, 1.0),
+            )
           ]),
-        ),
-      ),
-    ]);
+      child: Column(children: [
+        Padding(padding: EdgeInsets.only(top: 6)),
+        Container(
+            alignment: Alignment.centerLeft,
+            child: Text(reservation.room,
+                textAlign: TextAlign.left,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1
+                    .copyWith(fontSize: 20))),
+        Padding(padding: EdgeInsets.all(15)),
+        Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+                'Data: ' +
+                    DateFormat('dd-MM-yyyy').format(reservation.startDate) +
+                    ' às ' +
+                    DateFormat('kk:mm').format(reservation.startDate),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2
+                    .copyWith(fontSize: 20, fontWeight: FontWeight.w400))),
+        Padding(padding: EdgeInsets.only(top: 4)),
+        Container(
+            alignment: Alignment.centerRight,
+            child: Text('Duração: ${hours}h$minutes',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w400))),
+      ]),
+    );
   }
 
   Widget reserveRoom(BuildContext context) {
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
     return FloatingActionButton(
       onPressed: () {
         showDialog(
@@ -128,7 +129,6 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-
                         getDateButton(),
                         getTimeButton(),
                         getDurationButton(),
@@ -167,26 +167,21 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
     );
   }
 
-
   Widget getDateButton() {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     return StatefulBuilder(builder: (context, setState) {
       return Row(children: [
-
         OutlinedButton(
           child: Text(
             'Pick a date',
-            style: TextStyle(
-                color: Theme
-                    .of(context)
-                    .accentColor),
+            style: TextStyle(color: Theme.of(context).accentColor),
           ),
           onPressed: () {
             showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2023))
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2023))
                 .then((date) {
               setState(() {
                 dateTime = date;
@@ -197,25 +192,18 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         Padding(
           padding: EdgeInsets.only(left: 40),
         ),
-        Text(dateTime == null
-            ? 'No date'
-            : formatter.format(dateTime)),
+        Text(dateTime == null ? 'No date' : formatter.format(dateTime)),
       ]);
     });
   }
 
-
   Widget getTimeButton() {
     return StatefulBuilder(builder: (context, setState) {
       return Row(children: [
-
         OutlinedButton(
             child: Text(
               'Pick a time',
-              style: TextStyle(
-                  color: Theme
-                      .of(context)
-                      .accentColor),
+              style: TextStyle(color: Theme.of(context).accentColor),
             ),
             onPressed: () {
               showTimePicker(
@@ -232,31 +220,24 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         ),
         Text(time == null
             ? 'No time'
-            : time.hour.toString() +
-            ':' +
-            time.minute.toString()),
+            : time.hour.toString().padLeft(2, '0') +
+                ':' +
+                time.minute.toString().padLeft(2, '0')),
       ]);
     });
-    
   }
-
 
   Widget getDurationButton() {
     return StatefulBuilder(builder: (context, setState) {
       return Row(children: [
-
         OutlinedButton(
           child: Text(
             'Pick a duration',
-            style: TextStyle(
-                color: Theme
-                    .of(context)
-                    .accentColor),
+            style: TextStyle(color: Theme.of(context).accentColor),
           ),
           onPressed: () {
             showDurationPicker(
-                context: context,
-                initialTime: Duration(minutes: 30))
+                    context: context, initialTime: Duration(minutes: 30))
                 .then((duration1) {
               setState(() {
                 duration = duration1;
@@ -269,9 +250,13 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         ),
         Text(duration == null
             ? 'No duration'
-            : duration.inMinutes.toString() + ' min'),
-      ])
-      ;
+            : duration.inHours.toString().padLeft(2, '0') +
+                'h:' +
+                (duration.inMinutes - duration.inHours * 60)
+                    .toString()
+                    .padLeft(2, '0') +
+                'm'),
+      ]);
     });
   }
 
@@ -284,8 +269,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             setState(() {
               checkBox = newValue;
             });
-          })
-      ;
+          });
     });
   }
 
@@ -304,15 +288,12 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
       return ElevatedButton(
         child: Text('Submit'),
         onPressed: () {
-          if (dateTime == null ||
-              time == null ||
-              duration == null) {
+          if (dateTime == null || time == null || duration == null) {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                      title: Text(
-                          'All fields must be filled!'),
+                      title: Text('All fields must be filled!'),
                       actions: <Widget>[
                         TextButton(
                             child: Text('Cancel'),
@@ -323,9 +304,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                 });
           }
         },
-      )
-      ;
+      );
     });
   }
-
 }
