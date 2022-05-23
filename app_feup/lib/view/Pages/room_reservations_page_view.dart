@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:intl/intl.dart';
+import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/room_reservations_card.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uni/utils/constants.dart' as Constants;
@@ -19,43 +23,47 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
 
-    List <Reservation> myList = List <Reservation>();
+    return StoreConnector<AppState, Tuple2<List<Reservation>,RequestStatus>>(
+      converter:(store){
+        final List<Reservation> reservations =
+          store.state.content['reservations'];
+        return Tuple2(reservations, store.state.content['reservationStatus']);
 
-    final r = Reservation("Room B001",DateTime.parse('2022-05-16 16:00'),
-        Duration(hours: 1));
+      },builder:(context, reservationInfo){
+        return RequestDependentWidgetBuilder(
+            context: context,
+            status: reservationInfo.item2,
+            contentGenerator: generateReservationPage,
+            content: reservationInfo.item1,
+            contentChecker: reservationInfo.item1 != null &&
+                reservationInfo.item1.isNotEmpty,
+            onNullContent: Center(
+         child: Text('Não existem dados para apresentar',
+                     style: Theme.of(context).textTheme.headline4,
+                     textAlign: TextAlign.center)));
 
-    final b = Reservation("Room B002",DateTime.parse('2022-05-17 16:30'),
-        Duration(hours: 1));
-
-   // myList.add(r);
-    //myList.add(b);
-
-    return ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-
-        children: printRooms(myList)
+      }
     );
   }
 
-  List<Widget> printRooms(List<Reservation> l){
+  Widget generateReservationPage(reservations,BuildContext context){
 
-    final List<Widget> c = <Widget>[];
+    final List<Widget> items = <Widget>[];
 
-    c.add(PageTitle(name: 'Rooms Reservations'));
+    items.add(PageTitle(name: 'Rooms Reservations'));
 
-    if(l.isEmpty){
-      c.add(Text(
+    if(items.isEmpty){
+      items.add(Text(
          'No booked Rooms',
         style: TextStyle(fontSize: 20), textAlign: TextAlign.center)
       );
     }
 
-    for(var i = 0; i < l.length; i++){
-      c.add(getRoom(l[i]));
+    for(var i = 0; i < reservations.length; i++){
+      items.add(getRoom(reservations[i]));
     }
 
-    c.add(MaterialButton(
+    items.add(MaterialButton(
       color: Color.fromARGB(255, 0x75, 0x17, 0x1e),
       shape: const CircleBorder(),
       onPressed: () {
@@ -70,7 +78,11 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
       ),
       ));
 
-    return c;
+    return ListView(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      children: items
+    );
   }
 
   Widget getRoom(Reservation reservation){
