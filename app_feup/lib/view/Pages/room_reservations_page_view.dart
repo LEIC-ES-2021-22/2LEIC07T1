@@ -6,12 +6,9 @@ import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/Widgets/room_reservations_card.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 import 'package:uni/model/entities/reservation.dart';
 
-//import 'secondary_page_view.dart';
+
 
 class RoomReservationsPageView extends StatefulWidget {
   @override
