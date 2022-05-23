@@ -19,179 +19,21 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        children: <Widget>[
-          PageTitle(name: 'Rooms Reservations'),
-          getRoom('B001', '25/03/2022', '1 hora', context),
-          Padding(padding: EdgeInsets.all(10)),
-          reserveRoom(context, dateTime, time, duration, checkBox),
-        ]);
-  }
-
-  Widget reserveRoom(BuildContext context, DateTime dateTime,
-      TimeOfDay time, Duration duration, bool checkBox) {
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    return FloatingActionButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StatefulBuilder(builder: (context, setState) {
-                return AlertDialog(
-                  content: Stack(children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Row(children: [
-                          OutlinedButton(
-                            child: Text(
-                              'Pick a date',
-                              style: TextStyle(
-                                  color: Theme.of(context).accentColor),
-                            ),
-                            onPressed: () {
-                              showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2023))
-                                  .then((date) {
-                                setState(() {
-                                  dateTime = date;
-                                });
-                              });
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 40),
-                          ),
-                          Text(dateTime == null
-                              ? 'No date'
-                              : formatter.format(dateTime)),
-                        ]),
-                        Row(children: [
-                          OutlinedButton(
-                              child: Text(
-                                'Pick a time',
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor),
-                              ),
-                              onPressed: () {
-                                showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now(),
-                                ).then((time1) {
-                                  setState(() {
-                                    time = time1;
-                                  });
-                                });
-                              }),
-                          Padding(
-                            padding: EdgeInsets.only(left: 40),
-                          ),
-                          Text(time == null
-                              ? 'No time'
-                              : time.hour.toString() +
-                                  ':' +
-                                  time.minute.toString()),
-                        ]),
-                        Row(children: [
-                          OutlinedButton(
-                            child: Text(
-                              'Pick a duration',
-                              style: TextStyle(
-                                  color: Theme.of(context).accentColor),
-                            ),
-                            onPressed: () {
-                              showDurationPicker(
-                                      context: context,
-                                      initialTime: Duration(minutes: 30))
-                                  .then((duration1) {
-                                setState(() {
-                                  duration = duration1;
-                                });
-                              });
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 18),
-                          ),
-                          Text(duration == null
-                              ? 'No duration'
-                              : duration.inMinutes.toString() + ' min'),
-                        ]),
-                        //
-
-                        CheckboxListTile(
-                            title: Text('Choose room'),
-                            value: checkBox,
-                            onChanged: (newValue) {
-                              setState(() {
-                                checkBox = newValue;
-                              });
-                            }),
-
-                        // Padding(
-                        //   padding: EdgeInsets.all(20),
-                        // ),
-                        TextButton(
-                          child: Icon(Icons.refresh),
-                          onPressed: () {
-                            setState(() {
-                              time = null;
-                              dateTime = null;
-                              duration = null;
-                              checkBox = false;
-                            });
-                          },
-                        ),
-                      ],
-                    )
-                  ]),
-                  actions: <Widget>[
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TextButton(
-                              child: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                          ElevatedButton(
-                            child: Text('Submit'),
-                            onPressed: () {
-                              if (dateTime == null ||
-                                  time == null ||
-                                  duration == null) {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                          title: Text(
-                                              'All fields must be filled!'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                child: Text('Cancel'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                })
-                                          ]);
-                                    });
-                              }
-                            },
-                          ),
-                        ])
-                  ],
-                );
-              });
-            });
-      },
-      child: Icon(Icons.add),
-      backgroundColor: Theme.of(context).accentColor,
+    return Scaffold(
+      body: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: <Widget>[
+            PageTitle(name: 'Rooms Reservations'),
+            getRoom('B001', '25/03/2022', '1 hora', context),
+            Padding(padding: EdgeInsets.all(10)),
+          ]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: reserveRoom(context, dateTime, time, duration, checkBox),
     );
   }
+
+
 
   Widget getRoom(
       String room, String startdate, String duration, BuildContext context) {
@@ -243,5 +85,185 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         ),
       ),
     ]);
+  }
+
+
+
+   Widget reserveRoom(BuildContext context, DateTime dateTime,
+      TimeOfDay time, Duration duration, bool checkBox) {
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return FloatingActionButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return StatefulBuilder(builder: (context, setState) {
+                return AlertDialog(
+                  content: Stack(children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(children: [
+
+                          // Date button
+                          OutlinedButton(
+                            child: Text(
+                              'Pick a date',
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            onPressed: () {
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2023))
+                                  .then((date) {
+                                setState(() {
+                                  dateTime = date;
+                                });
+                              });
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 40),
+                          ),
+                          Text(dateTime == null
+                              ? 'No date'
+                              : formatter.format(dateTime)),
+                        ]),
+
+
+                        Row(children: [
+
+                          // Time button
+                          OutlinedButton(
+                              child: Text(
+                                'Pick a time',
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor),
+                              ),
+                              onPressed: () {
+                                showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ).then((time1) {
+                                  setState(() {
+                                    time = time1;
+                                  });
+                                });
+                              }),
+                          Padding(
+                            padding: EdgeInsets.only(left: 40),
+                          ),
+                          Text(time == null
+                              ? 'No time'
+                              : time.hour.toString() +
+                              ':' +
+                              time.minute.toString()),
+                        ]),
+
+
+                        Row(children: [
+
+                          // Duration button
+                          OutlinedButton(
+                            child: Text(
+                              'Pick a duration',
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            onPressed: () {
+                              showDurationPicker(
+                                  context: context,
+                                  initialTime: Duration(minutes: 30))
+                                  .then((duration1) {
+                                setState(() {
+                                  duration = duration1;
+                                });
+                              });
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 18),
+                          ),
+                          Text(duration == null
+                              ? 'No duration'
+                              : duration.inMinutes.toString() + ' min'),
+                        ]),
+
+
+                        // CheckBox button
+                        CheckboxListTile(
+                            title: Text('Choose room'),
+                            value: checkBox,
+                            onChanged: (newValue) {
+                              setState(() {
+                                checkBox = newValue;
+                              });
+                            }),
+
+                        // Padding(
+                        //   padding: EdgeInsets.all(20),
+                        // ),
+
+                        // Refresh Button
+                        TextButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              time = null;
+                              dateTime = null;
+                              duration = null;
+                              checkBox = false;
+                            });
+                          },
+                        ),
+                      ],
+                    )
+                  ]),
+                  actions: <Widget>[
+
+                    // Cancel and Submit Button
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }),
+                          ElevatedButton(
+                            child: Text('Submit'),
+                            onPressed: () {
+                              if (dateTime == null ||
+                                  time == null ||
+                                  duration == null) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          title: Text(
+                                              'All fields must be filled!'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                })
+                                          ]);
+                                    });
+                              }
+                            },
+                          ),
+                        ])
+                  ],
+                );
+              });
+            });
+      },
+      child: Icon(Icons.add),
+      backgroundColor: Theme.of(context).accentColor,
+    );
   }
 }
