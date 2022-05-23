@@ -3,6 +3,7 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/reservation.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -38,6 +39,16 @@ class SetRestaurantsAction {
 class SetRestaurantsStatusAction {
   RequestStatus status;
   SetRestaurantsStatusAction(this.status);
+}
+
+class SetReservationsAction {
+  List<Reservation> reservations;
+  SetReservationsAction(this.reservations);
+}
+
+class SetReservationsStatusAction {
+  RequestStatus status;
+  SetReservationsStatusAction(this.status);
 }
 
 class SetScheduleAction {

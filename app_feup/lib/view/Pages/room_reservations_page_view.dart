@@ -1,8 +1,12 @@
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
+import 'package:intl/intl.dart';
+import 'package:uni/view/Widgets/room_reservations_card.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/model/entities/reservation.dart';
 
 //import 'secondary_page_view.dart';
 
@@ -19,24 +23,45 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
+    List<Reservation> myList = List<Reservation>();
+
+    final r = Reservation(
+        "Room B001", DateTime.parse('2022-05-16 16:00'), Duration(hours: 1));
+
+    final b = Reservation(
+        "Room B002", DateTime.parse('2022-05-17 16:30'), Duration(hours: 1));
+
+    myList.add(r);
+    myList.add(b);
+
     return Scaffold(
       body: ListView(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          children: <Widget>[
-            PageTitle(name: 'Rooms Reservations'),
-            getRoom('B001', '25/03/2022', '1 hora', context),
-            Padding(padding: EdgeInsets.all(10)),
-          ]),
+          children: printRooms(myList)),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: reserveRoom(context, dateTime, time, duration, checkBox),
+      floatingActionButton:
+          reserveRoom(context, dateTime, time, duration, checkBox),
     );
   }
 
+  List<Widget> printRooms(List<Reservation> l) {
+    final List<Widget> c = <Widget>[];
 
+    c.add(PageTitle(name: 'Rooms Reservations'));
 
-  Widget getRoom(
-      String room, String startdate, String duration, BuildContext context) {
+    if (l.isEmpty) {
+      c.add(Text('No booked Rooms',
+          style: TextStyle(fontSize: 20), textAlign: TextAlign.center));
+    }
+
+    for (var i = 0; i < l.length; i++) {
+      c.add(getRoom(l[i]));
+    }
+    return c;
+  }
+
+  Widget getRoom(Reservation reservation) {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       Container(
         child: Container(
@@ -59,7 +84,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                  child: Text(room,
+                  child: Text(reservation.room,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 20,
@@ -69,7 +94,9 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             Align(
               alignment: Alignment.centerRight,
               child: Container(
-                  child: Text(startdate,
+                  child: Text(
+                      DateFormat('dd-MM-yyyy hh:mm')
+                          .format(reservation.startDate),
                       style: TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold))),
             ),
@@ -77,7 +104,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             Align(
               alignment: Alignment.centerRight,
               child: Container(
-                  child: Text(duration,
+                  child: Text(
+                      reservation.duration.inMinutes.toString() + ' min',
                       textAlign: TextAlign.right,
                       style: TextStyle(fontSize: 20))),
             ),
@@ -87,10 +115,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
     ]);
   }
 
-
-
-   Widget reserveRoom(BuildContext context, DateTime dateTime,
-      TimeOfDay time, Duration duration, bool checkBox) {
+  Widget reserveRoom(BuildContext context, DateTime dateTime, TimeOfDay time,
+      Duration duration, bool checkBox) {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     return FloatingActionButton(
       onPressed: () {
@@ -104,7 +130,6 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Row(children: [
-
                           // Date button
                           OutlinedButton(
                             child: Text(
@@ -114,10 +139,10 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                             ),
                             onPressed: () {
                               showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2023))
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2023))
                                   .then((date) {
                                 setState(() {
                                   dateTime = date;
@@ -133,9 +158,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                               : formatter.format(dateTime)),
                         ]),
 
-
                         Row(children: [
-
                           // Time button
                           OutlinedButton(
                               child: Text(
@@ -159,13 +182,11 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                           Text(time == null
                               ? 'No time'
                               : time.hour.toString() +
-                              ':' +
-                              time.minute.toString()),
+                                  ':' +
+                                  time.minute.toString()),
                         ]),
 
-
                         Row(children: [
-
                           // Duration button
                           OutlinedButton(
                             child: Text(
@@ -175,8 +196,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                             ),
                             onPressed: () {
                               showDurationPicker(
-                                  context: context,
-                                  initialTime: Duration(minutes: 30))
+                                      context: context,
+                                      initialTime: Duration(minutes: 30))
                                   .then((duration1) {
                                 setState(() {
                                   duration = duration1;
@@ -191,7 +212,6 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                               ? 'No duration'
                               : duration.inMinutes.toString() + ' min'),
                         ]),
-
 
                         // CheckBox button
                         CheckboxListTile(
@@ -223,7 +243,6 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                     )
                   ]),
                   actions: <Widget>[
-
                     // Cancel and Submit Button
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

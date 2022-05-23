@@ -1,7 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/model/entities/reservation.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'generic_card.dart';
 import 'package:uni/utils/constants.dart' as Constants;
@@ -46,6 +48,10 @@ class RoomReservations extends GenericCard {
 
 
   Widget generateRoom(occupations, context) {
+
+    final r = Reservation("Room B001",DateTime.parse('2022-05-16 16:00'),
+        Duration(hours: 1));
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -53,9 +59,12 @@ class RoomReservations extends GenericCard {
           child: Column(
             children: <Widget>[
 
-              Text('Room B001', textAlign: TextAlign.left),
-              Text('12/2/01 ás 16:00' , textAlign: TextAlign.center),
-              Text('duraçao: 1 hora', textAlign: TextAlign.center)
+
+
+              Text(r.room, textAlign: TextAlign.left),
+              Text(DateFormat('dd-MM-yyyy hh:mm')
+                  .format(r.startDate), textAlign: TextAlign.center),
+              Text(r.duration.toString(), textAlign: TextAlign.center)
 
             ],
           ),
