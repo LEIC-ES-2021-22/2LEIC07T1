@@ -26,7 +26,8 @@ class AppSharedPreferences {
     FAVORITE_WIDGET_TYPE.schedule,
     FAVORITE_WIDGET_TYPE.exams,
     FAVORITE_WIDGET_TYPE.busStops,
-    FAVORITE_WIDGET_TYPE.libraryOccupation
+    FAVORITE_WIDGET_TYPE.libraryOccupation,
+    FAVORITE_WIDGET_TYPE.roomReservations
   ];
   static final String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes =

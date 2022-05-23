@@ -36,7 +36,8 @@ class AppState {
       'feesStatus': RequestStatus.none,
       'coursesStateStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null,
-      'reservations': <Reservation>[]
+      'reservations': <Reservation>[],
+      'reservationsStatus': RequestStatus.none
     };
   }
 

@@ -18,6 +18,7 @@ import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
 import 'package:uni/view/Pages/uniteca_page_view.dart';
+import 'package:uni/view/Pages/room_reservations_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
@@ -105,6 +106,10 @@ class MyAppState extends State<MyApp> {
               case '/' + Constants.navUniteca:
                 return PageTransition.makePageTransition(
                     page: UnitecaPageView(), settings: settings
+                );
+                case '/' + Constants.navRooms:
+                return PageTransition.makePageTransition(
+                    page: RoomReservationsPageView(), settings: settings
                 );
               case '/' + Constants.navLogOut:
                 return LogoutRoute.buildLogoutRoute();
