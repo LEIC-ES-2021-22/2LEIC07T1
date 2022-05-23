@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/model/entities/reservation.dart';
 
-//import 'secondary_page_view.dart';
 
 class RoomReservationsPageView extends StatefulWidget {
   @override
@@ -251,7 +250,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
         Text(duration == null
             ? 'No duration'
             : duration.inHours.toString().padLeft(2, '0') +
-                'h:' +
+                'h' +
                 (duration.inMinutes - duration.inHours * 60)
                     .toString()
                     .padLeft(2, '0') +
