@@ -57,6 +57,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer(),
+      occupation = Completer(),
       reservations = Completer();
 
   store.dispatch(getUserInfo(userInfo));
@@ -65,6 +66,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
+  store.dispatch(getOccupationFromFetcher(occupation));
   store.dispatch(getReservationsFromFetcher(reservations));
 
   final Tuple2<String, String> userPersistentInfo =
@@ -83,6 +85,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     userInfo.future,
     trips.future,
     restaurants.future,
+    occupation.future,
     reservations.future
   ]);
   allRequests.then((futures) {
