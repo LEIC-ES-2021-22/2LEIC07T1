@@ -39,6 +39,7 @@ class AppState {
       'coursesStateStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null,
       'reservations': <Reservation>[],
+      'reservationsStatus': RequestStatus.none,
       'occupation': LibraryOccupation(),
       'occupationStatus': RequestStatus.none
     };
