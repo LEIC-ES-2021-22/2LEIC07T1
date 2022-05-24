@@ -1,5 +1,5 @@
 
-# Iteration 1
+# Iteration 2
 
 Check the release of this iteration [here](https://github.com/LEIC-ES-2021-22/2LEIC07T1/releases/tag/v2.0.0)
 
@@ -21,3 +21,7 @@ Check the release of this iteration [here](https://github.com/LEIC-ES-2021-22/2L
 
  - We were not able to implement acceptance tests due to technical reasons.
  - There are some aspects of the Dart language and Flutter that we are not familiar yet. The same goes for the Uni codebase.
+
+## Project Board
+
+![image](https://user-images.githubusercontent.com/75942759/170086852-cda0e03f-d688-4c6c-bc51-ac1b325c83ef.png)
