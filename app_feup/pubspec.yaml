@@ -44,6 +44,7 @@ dependencies:
   sentry_flutter: ^5.0.0
   email_validator: ^1.0.6
   percent_indicator: ^4.0.1
+  duration_picker: ^1.0.0
   gsheets: ^0.3.2
 
   # The following adds the Cupertino Icons font to your application.
