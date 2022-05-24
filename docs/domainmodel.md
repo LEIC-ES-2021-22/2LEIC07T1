@@ -1,6 +1,6 @@
 # Domain model
 
-![domain_model](src/DomainModelv2.png)
+![domain_model](src/domainmodel.png)
 
 <table>
   <tr>
