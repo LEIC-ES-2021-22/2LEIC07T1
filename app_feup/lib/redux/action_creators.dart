@@ -11,16 +11,20 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
+import 'package:uni/controller/local_storage/app_reservations_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
+import 'package:uni/controller/occupation_fetcher/occupation_fetcher_sheets.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
+import 'package:uni/controller/reservations_fetcher/reservations_fetcher_html.dart';
 import 'package:uni/controller/restaurant_fetcher/restaurant_fetcher_html.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
@@ -30,7 +34,9 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/library.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/reservation.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -300,6 +306,47 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
     } catch(e){
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getOccupationFromFetcher(Completer<Null> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetOccupationStatusAction(RequestStatus.busy));
+
+      final LibraryOccupation occupation = 
+        await OccupationFetcherSheets().getOccupationFromSheets(store);
+      final OccupationDatabase db = OccupationDatabase();
+      db.saveOccupation(occupation);
+      store.dispatch(SetOccupationAction(occupation));
+      store.dispatch(SetOccupationStatusAction(RequestStatus.successful));
+      
+    } catch(e){
+      Logger().e('Failed to get Occupation: ${e.toString()}');
+      store.dispatch(SetOccupationStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getReservationsFromFetcher(Completer<Null> action){
+  return (Store<AppState> store) async{
+    try{
+      store.dispatch(SetReservationsStatusAction(RequestStatus.busy));
+
+      final List<Reservation> reservations =
+                      await ReservationsFetcherHtml().getReservations(store);
+      // Updates local database according to information fetched -- Reservations
+      final ReservationDatabase db = ReservationDatabase();
+      db.saveReservations(reservations);
+      store.dispatch(SetReservationsAction(reservations));
+      store.dispatch(SetReservationsStatusAction(RequestStatus.successful));
+
+    } catch(e){
+      Logger().e('Failed to get Reservations: ${e.toString()}');
+      store.dispatch(SetReservationsStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
