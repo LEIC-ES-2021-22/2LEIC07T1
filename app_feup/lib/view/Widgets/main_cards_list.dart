@@ -13,6 +13,7 @@ import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
 import 'package:uni/view/Widgets/library_occupation_card.dart';
 import 'package:uni/view/Widgets/room_reservations_card.dart';
+import 'package:uni/view/Widgets/Library_Profile_card.dart';
 
 class MainCardsList extends StatelessWidget {
   final Map<FAVORITE_WIDGET_TYPE, Function> cardCreators = {
@@ -22,6 +23,8 @@ class MainCardsList extends StatelessWidget {
         ExamCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.account: (k, em, od) =>
         AccountInfoCard.fromEditingInformation(k, em, od),
+    FAVORITE_WIDGET_TYPE.account: (k, em, od) =>
+        Library_profile_info.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.busStops: (k, em, od) =>

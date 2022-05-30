@@ -8,6 +8,7 @@ import 'package:uni/view/Pages/unnamed_page_view.dart';
 import 'package:uni/view/Widgets/account_info_card.dart';
 import 'package:uni/view/Widgets/course_info_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
+import 'package:uni/view/Widgets/Library_Profile_card.dart';
 
 class ProfilePageView extends StatefulWidget {
   final String name;
@@ -64,6 +65,7 @@ class ProfilePageViewState extends UnnamedPageView {
     list.add(PrintInfoCard());
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(AccountInfoCard());
+    list.add(Library_profile_info());
     return list;
   }
 
