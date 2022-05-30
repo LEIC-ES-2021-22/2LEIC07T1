@@ -17,9 +17,10 @@ void main() {
     final mockResponse = MockResponse();
 
     final reservation1 = Reservation(
-      'C606', DateTime.parse('2022-05-16 16:00'), Duration(hours: 1));
+      'C606', DateTime.parse('2022-05-16 16:00'), Duration(hours: 1), '303052');
     final reservation2 = Reservation(
-      'C612', DateTime.parse('2022-05-16 17:00'), Duration(minutes: 30));
+      'C612', DateTime.parse('2022-05-16 17:00'),
+      Duration(minutes: 30), '303100');
 
     NetworkRouter.httpClient = mockClient;
     final mockHtml = File('test/resources/reservations.html')

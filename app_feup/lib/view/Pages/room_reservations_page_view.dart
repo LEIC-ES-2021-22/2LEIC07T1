@@ -2,12 +2,14 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/model/entities/reservation.dart';
+import 'package:redux/redux.dart';
 
 
 class RoomReservationsPageView extends StatefulWidget {
@@ -24,11 +26,9 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
     return Scaffold(
-      body: StoreConnector<AppState, Tuple2<List<Reservation>, RequestStatus>>(
+      body: StoreConnector<AppState, Tuple2<AppState, RequestStatus>>(
           converter: (store) {
-        final List<Reservation> reservations =
-            store.state.content['reservations'];
-        return Tuple2(reservations, store.state.content['reservationsStatus']);
+        return Tuple2(store.state, store.state.content['reservationsStatus']);
       }, builder: (context, reservationInfo) {
         return RequestDependentWidgetBuilder(
             context: context,
@@ -36,7 +36,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             contentGenerator: generateReservationPage,
             content: reservationInfo.item1,
             contentChecker: reservationInfo.item1 != null &&
-                reservationInfo.item1.isNotEmpty,
+                reservationInfo.item1
+                  .content['reservations'].isNotEmpty,
             onNullContent: Center(
                 child: Text('Não há salas reservadas!',
                     style: Theme.of(context).textTheme.headline4,
@@ -47,20 +48,22 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
     );
   }
 
-  Widget generateReservationPage(reservations, BuildContext context) {
+  Widget generateReservationPage(dynamic state, BuildContext context) {
+    final List<Reservation> reservations =
+        state.content['reservations'];
     final List<Widget> items = <Widget>[];
 
     items.add(PageTitle(name: 'Reserva de gabinetes'));
 
     for (var i = 0; i < reservations.length; i++) {
-      items.add(getRoom(reservations[i]));
+      items.add(getRoom(state, reservations[i]));
     }
 
     return ListView(
         scrollDirection: Axis.vertical, shrinkWrap: true, children: items);
   }
 
-  Widget getRoom(Reservation reservation) {
+  Widget getRoom(AppState state, Reservation reservation) {
     final String hours =
         (reservation.duration.inHours).toString().padLeft(2, '0');
     final String minutes =
@@ -83,15 +86,20 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             )
           ]),
       child: Column(children: [
-        Padding(padding: EdgeInsets.only(top: 6)),
-        Container(
-            alignment: Alignment.centerLeft,
-            child: Text(reservation.room,
-                textAlign: TextAlign.left,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline1
-                    .copyWith(fontSize: 20))),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(reservation.room,
+                  textAlign: TextAlign.left,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      .copyWith(fontSize: 20))),
+            cancelRoom(context, state, reservation.id)
+          ]
+        ),
         Padding(padding: EdgeInsets.all(15)),
         Container(
             alignment: Alignment.centerRight,
@@ -114,6 +122,34 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                     .copyWith(fontSize: 16, fontWeight: FontWeight.w400))),
       ]),
     );
+  }
+
+  Widget cancelRoom(BuildContext context, AppState state, String id) {
+    return IconButton(
+      icon: Icon(Icons.close),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text('Queres cancelar este pedido?',
+                   style: Theme.of(context).textTheme.headline2,),
+              actions: <Widget>[
+                Row(
+                  children: [
+                    getCancelButton(),
+                    ElevatedButton(
+                      child: Text('Cancelar'),
+                          onPressed: () async {
+                            await NetworkRouter.cancelReservation(state, id);
+                            Navigator.of(context).pop();
+                          })
+                  ])
+                ],
+            );
+          }
+          );
+      });
   }
 
   Widget reserveRoom(BuildContext context) {
@@ -275,7 +311,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
   Widget getCancelButton() {
     return StatefulBuilder(builder: (context, setState) {
       return TextButton(
-          child: Text('Cancel'),
+          child: Text('Voltar'),
           onPressed: () {
             Navigator.of(context).pop();
           });
@@ -285,7 +321,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
   Widget getSubmitButton() {
     return StatefulBuilder(builder: (context, setState) {
       return ElevatedButton(
-        child: Text('Submit'),
+        child: Text('Submeter'),
         onPressed: () {
           if (dateTime == null || time == null || duration == null) {
             showDialog(

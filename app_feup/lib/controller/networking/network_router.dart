@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/bus_stops/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -12,6 +13,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
+import 'package:redux/redux.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 extension UriString on String{
@@ -220,6 +222,22 @@ class NetworkRouter {
     }
 
     return buses;
+  }
+
+  /// Cancel a reservation from it's id.
+  static Future<http.Response> cancelReservation(
+    AppState state, String id) async {
+      final Session session = state.content['session'];
+      final url = NetworkRouter.getBaseUrlFromSession(session) +
+          'res_recursos_geral.pedidos_cancelar?pct_pedido_id=$id';
+
+      final Map<String, String> headers = Map<String, String>();
+      headers['cookie'] = session.cookies;
+      headers['content-type'] = 'application/x-www-form-urlencoded';
+
+      final response =
+          await http.post(url.toUri(), headers: headers);
+      return response;
   }
 
   /// Returns the base url of the user's faculty.
