@@ -3,10 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'generic_card.dart';
 
-class Library_profile_info extends GenericCard {
-Library_profile_info({Key key}) : super(key: key);
+class LibraryProfileInfo extends GenericCard {
+  LibraryProfileInfo({Key key}) : super(key: key);
 
-  Library_profile_info.fromEditingInformation(
+  LibraryProfileInfo.fromEditingInformation(
       Key key, bool editingMode, Function onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 

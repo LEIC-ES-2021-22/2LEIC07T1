@@ -65,7 +65,7 @@ class ProfilePageViewState extends UnnamedPageView {
     list.add(PrintInfoCard());
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(AccountInfoCard());
-    list.add(Library_profile_info());
+    list.add(LibraryProfileInfo());
     return list;
   }
 
