@@ -13,7 +13,7 @@ import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
 import 'package:uni/view/Widgets/library_occupation_card.dart';
 import 'package:uni/view/Widgets/room_reservations_card.dart';
-import 'package:uni/view/Widgets/Library_Profile_card.dart';
+import 'package:uni/view/Widgets/library_profile_card.dart';
 
 class MainCardsList extends StatelessWidget {
   final Map<FAVORITE_WIDGET_TYPE, Function> cardCreators = {
