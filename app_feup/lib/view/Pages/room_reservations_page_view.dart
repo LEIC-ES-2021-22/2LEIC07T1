@@ -375,6 +375,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
       result += hours.toString() + ',5';
     } else if (minutes > 30 && minutes <= 60) {
       result += (hours + 1).toString();
+    } else if (minutes == 0) {
+      result = hours.toString();
     }
     return result;
   }
