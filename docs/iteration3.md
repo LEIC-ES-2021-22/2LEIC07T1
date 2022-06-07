@@ -21,3 +21,4 @@ Check the release of this iteration [here](https://github.com/LEIC-ES-2021-22/2L
 
 ## Project Board
 
+![image](https://user-images.githubusercontent.com/75942759/172487709-e399c67c-0c43-4ae7-8ebb-1262fabd414c.png)
