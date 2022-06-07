@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_reservation.dart';
-import 'package:uni/model/entities/reservation.dart';
 import 'package:uni/view/Pages/room_reservations_page_view.dart';
 
 class MockClient extends Mock implements http.Client {}

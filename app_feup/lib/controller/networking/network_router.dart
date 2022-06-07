@@ -14,7 +14,6 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
-import 'package:redux/redux.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 extension UriString on String{

@@ -369,8 +369,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   String formatDuration(Duration duration) {
     String result = '';
-    int minutes = duration.inMinutes.remainder(60);
-    int hours = duration.inHours;
+    final int minutes = duration.inMinutes.remainder(60);
+    final int hours = duration.inHours;
     if (minutes > 0 && minutes <= 30) {
       result += hours.toString() + ',5';
     } else if (minutes > 30 && minutes <= 60) {
