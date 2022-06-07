@@ -7,7 +7,7 @@ import 'package:uni/controller/usual_occupation.dart';
 import 'package:uni/controller/occupation_fetcher/occupation_fetcher_sheets.dart';
 import 'package:redux/redux.dart';
 
-class MockUsualOccupation extends Mock implements usualOccupation {}
+class MockUsualOccupation extends Mock implements UsualOccupation {}
 
 class MockOccupationFetcher extends Mock implements OccupationFetcherSheets {}
 
@@ -16,6 +16,7 @@ class MockStore extends Mock implements Store<AppState> {}
 class MockDateTime extends Mock implements DateTime {}
 
 class MockLibraryOccupation extends Mock implements LibraryOccupation {}
+
 
 void main() {
   group('Average occupation', () {
@@ -30,7 +31,7 @@ void main() {
       });
 
       final weekDayInfo =
-          await usualOccupation.getWeekdayOccupationInfo(weekday, hour);
+          await UsualOccupation.getWeekdayOccupationInfo(weekday, hour);
 
       expect('20', weekDayInfo[0]);
       expect('1', weekDayInfo[1]);
@@ -41,13 +42,14 @@ void main() {
         '114': ['30', '1']
       });
 
+      // ignore: unused_local_variable
       final SharedPreferences pref = await SharedPreferences.getInstance();
 
-      usualOccupation.setAverageOccupation(
+      UsualOccupation.setAverageOccupation(
           averageOccupation, occurrences, weekday, hour);
 
       final weekDayInfo =
-          await usualOccupation.getWeekdayOccupationInfo(weekday, hour);
+          await UsualOccupation.getWeekdayOccupationInfo(weekday, hour);
 
       expect('20', weekDayInfo[0]);
     });

@@ -4,7 +4,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:uni/model/entities/library.dart';
 
-class usualOccupation {
+class UsualOccupation {
   static void setAverageOccupation(String averageOccupation, String occurrences,
       String weekday, String hour) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -12,8 +12,8 @@ class usualOccupation {
     prefs.setStringList(weekday + hour, value);
   }
 
-  static Future<List<String>> getWeekdayOccupationInfo(String weekday,
-      String hour) async {
+  static Future<List<String>> getWeekdayOccupationInfo(
+      String weekday, String hour) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList(weekday + hour);
   }
@@ -23,7 +23,7 @@ class usualOccupation {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final LibraryOccupation occupation =
-    await OccupationFetcherSheets().getOccupationFromSheets(store);
+        await OccupationFetcherSheets().getOccupationFromSheets(store);
 
     final DateTime dateTime = DateTime.now();
     final String weekday = dateTime.weekday.toString();
@@ -32,10 +32,12 @@ class usualOccupation {
 
     if (prefs.containsKey(weekday + hour)) {
       final weekdayOccupationInfo =
-      await getWeekdayOccupationInfo(weekday, hour);
+          await getWeekdayOccupationInfo(weekday, hour);
 
-      final double averageOccupation = double.parse(weekdayOccupationInfo[0]); // index 0 has weekday
-      final int occurrences = int.parse(weekdayOccupationInfo[1]); // index 1 has average occupation
+      final double averageOccupation =
+          double.parse(weekdayOccupationInfo[0]); // index 0 has weekday
+      final int occurrences =
+          int.parse(weekdayOccupationInfo[1]); // index 1 has average occupation
 
       final double newAverage =
           (occurrences * averageOccupation + currentOccupation) /
@@ -43,10 +45,8 @@ class usualOccupation {
 
       setAverageOccupation(
           newAverage.toString(), occurrences.toString(), weekday, hour);
-    }
-    else {
-      setAverageOccupation(
-          occupation.toString(), '1', weekday, hour);
+    } else {
+      setAverageOccupation(occupation.toString(), '1', weekday, hour);
     }
   }
 }
