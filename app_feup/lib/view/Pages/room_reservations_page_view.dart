@@ -9,8 +9,6 @@ import 'package:uni/view/Widgets/page_title.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/model/entities/reservation.dart';
-import 'package:redux/redux.dart';
-
 
 class RoomReservationsPageView extends StatefulWidget {
   @override
@@ -36,21 +34,23 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             contentGenerator: generateReservationPage,
             content: reservationInfo.item1,
             contentChecker: reservationInfo.item1 != null &&
-                reservationInfo.item1
-                  .content['reservations'].isNotEmpty,
-            onNullContent: Center(
+                reservationInfo.item1.content['reservations'].isNotEmpty,
+            onNullContent: Scaffold(
+              body: Center(
                 child: Text('Não há salas reservadas!',
                     style: Theme.of(context).textTheme.headline4,
-                    textAlign: TextAlign.center)));
+                    textAlign: TextAlign.center),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endFloat,
+              floatingActionButton: reserveRoom(context, reservationInfo.item1),
+            ));
       }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: reserveRoom(context),
     );
   }
 
   Widget generateReservationPage(dynamic state, BuildContext context) {
-    final List<Reservation> reservations =
-        state.content['reservations'];
+    final List<Reservation> reservations = state.content['reservations'];
     final List<Widget> items = <Widget>[];
 
     items.add(PageTitle(name: 'Reserva de gabinetes'));
@@ -59,8 +59,12 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
       items.add(getRoom(state, reservations[i]));
     }
 
-    return ListView(
-        scrollDirection: Axis.vertical, shrinkWrap: true, children: items);
+    return Scaffold(
+      body: ListView(
+          scrollDirection: Axis.vertical, shrinkWrap: true, children: items),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: reserveRoom(context, state),
+    );
   }
 
   Widget getRoom(AppState state, Reservation reservation) {
@@ -86,10 +90,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
             )
           ]),
       child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
               alignment: Alignment.centerLeft,
               child: Text(reservation.room,
                   textAlign: TextAlign.left,
@@ -97,9 +99,8 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                       .textTheme
                       .headline1
                       .copyWith(fontSize: 20))),
-            cancelRoom(context, state, reservation.id)
-          ]
-        ),
+          cancelRoom(context, state, reservation.id)
+        ]),
         Padding(padding: EdgeInsets.all(15)),
         Container(
             alignment: Alignment.centerRight,
@@ -126,33 +127,33 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
 
   Widget cancelRoom(BuildContext context, AppState state, String id) {
     return IconButton(
-      icon: Icon(Icons.close),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              content: Text('Queres cancelar este pedido?',
-                   style: Theme.of(context).textTheme.headline2,),
-              actions: <Widget>[
-                Row(
-                  children: [
-                    getCancelButton(),
-                    ElevatedButton(
-                      child: Text('Cancelar'),
+        icon: Icon(Icons.close),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Text(
+                    'Queres cancelar este pedido?',
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  actions: <Widget>[
+                    Row(children: [
+                      getCancelButton(),
+                      ElevatedButton(
+                          child: Text('Cancelar'),
                           onPressed: () async {
-                            await NetworkRouter.cancelReservation(state, id);
                             Navigator.of(context).pop();
+                            await NetworkRouter.cancelReservation(state, id);
                           })
-                  ])
-                ],
-            );
-          }
-          );
-      });
+                    ])
+                  ],
+                );
+              });
+        });
   }
 
-  Widget reserveRoom(BuildContext context) {
+  Widget reserveRoom(BuildContext context, AppState state) {
     return FloatingActionButton(
       onPressed: () {
         showDialog(
@@ -190,7 +191,7 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           getCancelButton(),
-                          getSubmitButton(),
+                          getSubmitButton(state),
                         ])
                   ],
                 );
@@ -318,11 +319,11 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
     });
   }
 
-  Widget getSubmitButton() {
+  Widget getSubmitButton(AppState state) {
     return StatefulBuilder(builder: (context, setState) {
       return ElevatedButton(
         child: Text('Submeter'),
-        onPressed: () {
+        onPressed: () async {
           if (dateTime == null || time == null || duration == null) {
             showDialog(
                 context: context,
@@ -337,9 +338,44 @@ class RoomReservationsPageViewState extends GeneralPageViewState {
                             })
                       ]);
                 });
+          } else {
+            Navigator.of(context).pop();
+            await NetworkRouter.makeReservation(
+                state,
+                formatDate(dateTime),
+                formatHour(time),
+                formatDuration(duration));
           }
         },
       );
     });
+  }
+
+  String formatDate(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
+  }
+
+  String formatHour(TimeOfDay time) {
+    String result = '';
+    result += (time.hour).toString();
+    if (time.minute > 0 && time.minute <= 30) {
+      result += ',5';
+    } else if (time.minute > 30 && time.minute <= 60) {
+      result = (time.hour + 1).toString();
+    }
+    return result;
+  }
+
+  String formatDuration(Duration duration) {
+    String result = '';
+    int minutes = duration.inMinutes.remainder(60);
+    int hours = duration.inHours;
+    if (minutes > 0 && minutes <= 30) {
+      result += hours.toString() + ',5';
+    } else if (minutes > 30 && minutes <= 60) {
+      result += (hours + 1).toString();
+    }
+    return result;
   }
 }

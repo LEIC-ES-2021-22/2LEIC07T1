@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:html/parser.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/bus_stops/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -236,8 +237,46 @@ class NetworkRouter {
       headers['content-type'] = 'application/x-www-form-urlencoded';
 
       final response =
-          await http.post(url.toUri(), headers: headers);
+          await http.get(url.toUri(), headers: headers);
       return response;
+  }
+
+  static Future<http.Response> makeReservation(
+    AppState state, String date, String hour, String duration) async {
+      final Session session = state.content['session'];
+      final url = NetworkRouter.getBaseUrlFromSession(session) +
+          'res_recursos_geral.pedidos_valida';
+      //final link = 'https://sigarra.up.pt/feup/pt/res_recursos_geral.pedidos_confirma?pct_grupo_id=7&pct_recurso_id=&pct_quantidade=1&p_data_inicio=2022-06-10&p_data_fim=&p_hora_inicio=9,5&p_duracao=1&p_tp_periodo=&p_periodo=&pct_beneficiario=202008462&pi_avancada=0&pct_session_id=305523&pct_pedido_id=&pi_exc_feriados=0&p_automatica=S'
+      
+      final Map<String, dynamic> body = {
+        'p_motivo': '',
+        'p_obs': '',
+        'pct_grupo_id' : '7',
+        'p_quantidade' : '1',
+        'p_data_inicio' : date,
+        'p_hora_inicio' : hour,
+        'p_duracao' : duration,
+        'p_beneficiario' : session.studentNumber,
+        'p_automatica' : 'S'
+      };
+
+      final Map<String, String> headers = Map<String, String>();
+      headers['cookie'] = session.cookies;
+      headers['content-type'] = 'application/x-www-form-urlencoded';
+
+      final response =
+          await http.post(url.toUri(), headers: headers, body: body);
+      final document = parse(response.body);
+      final String redirect = document.querySelector('a').attributes['href'];
+      final sessionId =
+        Uri.dataFromString(redirect).queryParameters['pct_session_id'];
+
+      body['pct_session_id'] = sessionId;
+      body['pi_confirmacao'] = '1';
+
+      final reserveResponse =
+        await http.post(url.toUri(), headers: headers, body: body);
+      return reserveResponse;
   }
 
   /// Returns the base url of the user's faculty.
