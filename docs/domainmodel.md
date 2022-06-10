@@ -5,32 +5,34 @@
 <table>
   <tr>
     <td>Student</td>
-    <td>Represents the student even if is authenticated or not</td>
+    <td>Current authenticated user</td>
   </tr>
   <tr>
-    <td>Authenticated Student</td>
-    <td> The student with more privileges </td>
+    <td>Reservation</td>
+    <td>Represents a reservation for a private room</td>
   </tr>
   <tr>
-    <td>Room</td>
-    <td> Represents the rooms that can be booked</td>
-  </tr>
-  <tr>
-    <td>Ocupation</td>
+    <td>Library</td>
     <td>
-      The number of students in the library
+      The faculty's library
     </td>
   </tr>
   <tr>
-    <td>Library Profile</td>
+    <td>Floor</td>
     <td>
-       Informations about requests of students
+       A library floor. Includes capacity and current occupation
     </td>
   </tr>
   <tr>
-    <td>Booking</td>
+    <td>LibraryOccupation</td>
     <td>
-     Represents the requests to book a room
+     Overall library occupation
+    </td>
+  </tr>
+  <tr>
+    <td>Profile</td>
+    <td>
+     Student's library profile. Info like book loans and accounting
     </td>
   </tr>
 </table>
